@@ -1,10 +1,10 @@
 
 const fs = require('fs');
 const config = require('../config');
-const { lite, commands } = require('../command');
+const { cmd, commands } = require('../command');
 const axios = require('axios');
 
-lite({
+cmd({
     pattern: "menu",
     react: "🤖",
     alias: ["allmenu"],
