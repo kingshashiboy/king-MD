@@ -1,7 +1,7 @@
-const { lite } = require('../command');
+const { cmd } = require('../command');
 const axios = require('axios');
 
-lite({
+cmd({
     pattern: "ai",
     alias: ["bot", "dj", "gpt", "gpt4", "bing"],
     desc: "Chat with an AI model",
@@ -30,7 +30,7 @@ async (conn, mek, m, { from, args, q, reply, react }) => {
     }
 });
 
-lite({
+cmd({
     pattern: "openai",
     alias: ["chatgpt", "gpt3", "open-gpt"],
     desc: "Chat with OpenAI",
@@ -59,7 +59,7 @@ async (conn, mek, m, { from, args, q, reply, react }) => {
     }
 });
 
-lite({
+cmd({
     pattern: "deepseek",
     alias: ["deep", "seekai"],
     desc: "Chat with DeepSeek AI",
