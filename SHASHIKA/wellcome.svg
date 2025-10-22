@@ -105,7 +105,7 @@
   <!-- Text center blinking (unchanged) -->
   <g text-anchor="middle" font-family="Fira Code, Segoe UI, Inter, Arial, sans-serif">
     <text x="600" y="115" fill="#ffffff" font-size="58" font-weight="800" filter="url(#textGlow)">
-      WE'LL COME EVERYONE 🎉
+      🤫WE'LL COME USERS 🍀
       <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
     </text>
   </g>
