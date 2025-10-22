@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { cmd } = require("../command");
 
-lite({
+cmd({
   pattern: "fb3",
   alias: ["facebook3"],
   desc: "Download Facebook videos",
