@@ -30,60 +30,47 @@ ___
 ---------
 
 <p align="center">
-<a href="https://github.com/MRSHABAN45/SHABAN-MD"><img title="PUBLIC-BOT" src="https://img.shields.io/static/v1?label=Language&message=JavaScript&style=square&color=darkpink"></a> &nbsp;
-  <img src="https://komarev.com/ghpvc/?username=SHABAN-MD&label=VIEWS&style=square&color=blue" />
+<a href="https://github.com/kingshashiboy/king-MD"><img title="PUBLIC-BOT" src="https://img.shields.io/static/v1?label=Language&message=JavaScript&style=square&color=darkpink"></a> &nbsp;
+  <img src="https://komarev.com/ghpvc/?username=king-MD&label=VIEWS&style=square&color=blue" />
 </p>
 
 
 -------------
 
 <p align="center">
-<img src="Shaban/feature-bot.svg" alt="Feature Bot" width="900"/>
+<img src="SHASHIKA/feature-bot.svg" alt="Feature Bot" width="900"/>
 
 <p align="center">
-<img src="Shaban/beta-v5.svg" alt="BETA-V5" width="100"/>
+<img src="SHASHIKA/beta-v5.svg" alt="BETA-V5" width="100"/>
   
 <p align="center">
-<img src="Shaban/license.svg" alt="License" width="200"/>
+<img src="SHASHIKA/license.svg" alt="License" width="200"/>
 
 --------------
 
 <p align="center">
-<img src="Shaban/maintenance.svg" alt="Maintenance" width="120"/>
+<img src="SHASHIKA/maintenance.svg" alt="Maintenance" width="120"/>
 
 
  <p align="center">
-  <a href="https://github.com/MRSHABAN45/SHABAN-MD/fork" target="_blank">
-    <img src="Shaban/forkstar-holo.svg" width="180" alt="Fork Star Bot Repo"/>
-  </a>
-</p>
-
-
-<p align="center">
-  <a href="https://smd-pair.zone.id/" target="_blank">
-    <img src="./Shaban/paircode-link.svg" width="195" alt="PAIR_CODE – Device Session ID">
+  <a href="https://github.com/kingshashiboy/king-MD/fork" target="_blank">
+    <img src="king-MD/forkstar-holo.svg" width="180" alt="Fork Star Bot Repo"/>
   </a>
 </p>
 
 -------------
 
-<p align="center">
-  <img src="./Shaban/deployment.svg" width="600" alt="SHABAN MD — News Ticker Typing">
-</p>
 
 <div align="center">
   <table>
     <tr>
       <td><a href="https://dashboard.heroku.com/new-app?template=https://github.com/MRSHABAN45/SHABAN-MD" target="_blank"><img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white&labelColor=000000&color=0000FF"/></a></td>
-      <td><a href="https://shaban.lovestoblog.com/" target="_blank"><img src="https://img.shields.io/badge/official-site-A52A2A?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=000000"/></a></td>
     </tr>
     <tr>
-      <td><a href="https://www.shaban-bomber.zone.id/" target="_blank"><img src="https://img.shields.io/badge/SMS-BOMBER-FF009D?style=for-the-badge&logo=firefoxbrowser&logoColor=white&labelColor=000000"/></a></td>
       <td><a href="https://railway.app/new" target="_blank"><img src="https://img.shields.io/badge/Railway-000080?style=for-the-badge&logo=railway&logoColor=white&labelColor=000000"/></a></td>
     </tr>
     <tr>
       <td><a href="https://github.com/iTx-Sarkar/SMD-Render" target="_blank"><img src="https://img.shields.io/badge/Render-000000?style=for-the-badge&logo=render&logoColor=white&labelColor=000000&color=FFFF00"/></a></td>
-      <td><a href="https://shaban-free-host.zone.id/" target="_blank"><img src="https://img.shields.io/badge/Free-host-CC00FF?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=000000"/></a></td>
     </tr>
   </table>
 </div>
@@ -100,7 +87,7 @@ ___
 
 -------------
 
-**_✠ FREE DEPLOYMENT OF SHABAN MD GITHUB WORKFLOW CODE NEW ADD ERROR FIXED ✠_**
+**_✠ FREE GITHUB WORKFLOW CODE ✠_**
 
 ```
 
@@ -148,17 +135,6 @@ jobs:
 
 <p align="center">
   <img src="https://i.imgur.com/LyHic3i.gif" alt="divider"/>
-</p>
-
-
-> 🔔 Stay Connected For Updates Feature Drops And Tutorials!
-
-<a href="https://youtube.com/@mrshaban282?si=ZVANSbKM0yajAbl_" target="_blank">
-  <img src="Shaban/youtube.svg" alt="YouTube" width="250"/>
-</a>
-
-<p align="center">
-  <img src="https://i.imgur.com/LyHic3i.gif" alt="footer divider"/>
 </p>
 
 ## ⚠️ _WARNING !_
