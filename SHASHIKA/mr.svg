@@ -68,7 +68,7 @@
 
   <!-- Center text (SMD inside circle with slow blink) -->
   <text x="300" y="215" text-anchor="middle" font-size="52" font-weight="bold" font-family="Segoe UI, Verdana, sans-serif" fill="url(#rainbow)">
-    SMD
+    AGNI
     <animate attributeName="opacity" values="1;0.3;1" dur="4s" repeatCount="indefinite"/>
   </text>
 
