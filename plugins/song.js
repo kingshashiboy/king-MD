@@ -1,170 +1,249 @@
-const { cmd, commands } = require('../command');
+
+
+const { cmd } = require('../command');
+const axios = require('axios');
 const yts = require('yt-search');
-const { fetchJson } = require('../lib/functions');
-const ddownr = require('denethdev-ytmp3');
-const config = require('../config');
-// Function to extract the video ID from youtu.be or YouTube links
-function extractYouTubeId(url) {
-    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|playlist\?list=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-}
+const Config = require('../config');
 
-// Function to convert any YouTube URL to a full YouTube watch URL
-function convertYouTubeLink(q) {
-    const videoId = extractYouTubeId(q);
-    if (videoId) {
-        return `https://www.youtube.com/watch?v=${videoId}`;
-    }
-    return q;
-}
+// Optimized axios instance
+const axiosInstance = axios.create({
+  timeout: 15000,
+  maxRedirects: 5,
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+  }
+});
 
-cmd({
-    pattern: "song",
-    alias: "yt",
-    desc: "To download songs.",
-    react: "🎵",
-    category: "download",
-    filename: __filename
-},
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
-    try {
-        q = convertYouTubeLink(q);
-        if (!q) return reply("*`Need YT_URL or Title`*");
-        const search = await yts(q);
-        const data = search.videos[0];
-        const url = data.url;
+// Kaiz-API configuration
+const KAIZ_API_KEY = 'cf2ca612-296f-45ba-abbc-473f18f991eb'; // Replace if needed
+const KAIZ_API_URL = 'https://kaiz-apis.gleeze.com/api/ytdown-mp3';
 
-        let desc = `
-┏「🐉𝐀𝐔𝐃𝐈𝐎🐉」
-┃ 👨‍💻Owner: ${config.OWNER_NAME}
-┃ 🤖 Bot Name: ${config.BOT_NAME}
-┗━━━━━━━━━━━━━━━𖣔𖣔
+cmd(
+    {
+        pattern: 'song',
+        alias: ['ytaudio', 'music'],
+        desc: 'High quality YouTube audio downloader',
+        category: 'media',
+        react: '🎵',
+        use: '<YouTube URL or search query>',
+        filename: __filename,
+    },
+    async (malvin, mek, m, { text, reply }) => {
+        try {
+            if (!text) return reply('🎵 *Usage:* .song <query/url>\nExample: .song https://youtu.be/ox4tmEV6-QU\n.song Alan Walker faded');
 
-┏━❮ 🩵𝐃𝐄𝐓𝐀𝐋𝐄𝐒🩵 ❯━
-┃🤖 *Title:* ${data.title}
-┃📑 *Duration:* ${data.timestamp}
-┃🔖 *Views:* ${data.views}
-┃📟 *Uploaded On:* ${data.ago}
-┃👨‍💻 Owner: ${config.OWNER_NAME}
-┗━━━━━━━━━━━━━━𖣔𖣔
+            // Send initial reaction
+            try {
+                if (mek?.key?.id) {
+                    await malvin.sendMessage(mek.chat, { react: { text: "⏳", key: mek.key } });
+                }
+            } catch (reactError) {
+                console.error('Reaction error:', reactError);
+            }
 
-╭━━〔🔢 *Reply Number*〕━━┈⊷
-┃◈╭─────────────·๏
-┃◈┃•1 | Download Audio 🎧
-┃◈┃•2 | Download Document 📁
-┃◈┃•3 | ᴅᴏᴡɴʟᴏᴀᴅ ᴠᴏɪᴄᴇ 🎤
-┃◈└───────────┈⊷
-╰──────────────┈⊷
-${config.FOOTER}
-`;
-let info = `
-${config.FOOTER}
- `;   
-const sentMsg = await conn.sendMessage(from, {
-            image: { url: data.thumbnail},
-            caption: desc,
-  contextInfo: {
-                mentionedJid: ['94705104830@s.whatsapp.net'], // specify mentioned JID(s) if any
-                groupMentions: [],
-                forwardingScore: 1,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363417070951702@newsletter',
-                    newsletterName: "🎬𝐌𝐎𝐕𝐈𝐄 𝐂𝐈𝐑𝐂𝐋𝐄🎬",
-                    serverMessageId: 999
+            // Get video information
+            let videoUrl, videoInfo;
+            const isYtUrl = text.match(/(youtube\.com|youtu\.be)/i);
+            
+            if (isYtUrl) {
+                // Handle YouTube URL
+                const videoId = text.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i)?.[1];
+                if (!videoId) return reply('❌ Invalid YouTube URL format');
+                
+                videoUrl = `https://youtu.be/${videoId}`;
+                try {
+                    videoInfo = await yts({ videoId });
+                    if (!videoInfo) throw new Error('Could not fetch video info');
+                } catch (e) {
+                    console.error('YT-Search error:', e);
+                    return reply('❌ Failed to get video information from URL');
+                }
+            } else {
+                // Handle search query
+                try {
+                    const searchResults = await yts(text);
+                    if (!searchResults?.videos?.length) {
+                        return reply('❌ No results found. Try different keywords.');
+                    }
+
+                    // Filter results (exclude live streams and very long videos)
+                    const validVideos = searchResults.videos.filter(v => 
+                        !v.live && v.seconds < 7200 && v.views > 10000
+                    );
+
+                    if (!validVideos.length) {
+                        return reply('❌ Only found live streams/unpopular videos. Try a different search.');
+                    }
+
+                    // Select best match (top result by default)
+                    videoInfo = validVideos[0];
+                    videoUrl = videoInfo.url;
+
+                    console.log('Selected video:', {
+                        title: videoInfo.title,
+                        duration: videoInfo.timestamp,
+                        views: videoInfo.views.toLocaleString(),
+                        url: videoInfo.url
+                    });
+                } catch (searchError) {
+                    console.error('Search error:', searchError);
+                    return reply('❌ Search failed. Please try again later.');
                 }
             }
-     }, {quoted: mek});
-     
-     const messageID = sentMsg.key.id; // Save the message ID for later reference
 
-
-        // Listen for the user's response
-        conn.ev.on('messages.upsert', async (messageUpdate) => {
-            const mek = messageUpdate.messages[0];
-            if (!mek.message) return;
-            const messageType = mek.message.conversation || mek.message.extendedTextMessage?.text;
-            const from = mek.key.remoteJid;
-            const sender = mek.key.participant || mek.key.remoteJid;
-
-            // Check if the message is a reply to the previously sent message
-            const isReplyToSentMsg = mek.message.extendedTextMessage && mek.message.extendedTextMessage.contextInfo.stanzaId === messageID;
-
-            if (isReplyToSentMsg) {
-                // React to the user's reply (the "1" or "2" message)
-
-                // React to the upload (sending the file)
-                
-
-                if (messageType === '1') {
-                    // Handle option 1 (Audio File)
-                    await conn.sendMessage(from, { react: { text: '⬇️', key: mek.key } });
-                const result = await ddownr.download(url, 'mp3'); // Download in mp3 format
-                const downloadLink = result.downloadUrl;
-                await conn.sendMessage(from, { react: { text: '⬆️', key: mek.key } });  
-                    await conn.sendMessage(from, { 
-                        audio: { url: downloadLink }, 
-                        mimetype: "audio/mpeg" ,
-                        contextInfo: {
-                            externalAdReply: {
-                                title: data.title,
-                                body: data.videoId,
-                                mediaType: 1,
-                                sourceUrl: data.url,
-                                thumbnailUrl: data.thumbnail, // This should match the image URL provided above
-                                renderLargerThumbnail: true,
-                                showAdAttribution: true
-                            }
-                        }
-                    
-                    }, { quoted: mek });
-                    await conn.sendMessage(from,);
-                
-                } else if (messageType === '2') {
-                    // Handle option 2 (Document File)
-                    await conn.sendMessage(from, { react: { text: '⬇️', key: mek.key } });
-                    const result = await ddownr.download(url, 'mp3'); // Download in mp3 format
-                    const downloadLink = result.downloadUrl;
-                await conn.sendMessage(from, { react: { text: '⬆️', key: mek.key } });
-                    await conn.sendMessage(from, {
-                        document: { url: downloadLink},
-                        mimetype: "audio/mp3",
-                        fileName: `${data.title}.mp3`, // Ensure `img.allmenu` is a valid image URL or base64 encoded image
-                        caption: info
-                                            
-                      }, { quoted: mek });
-                      await conn.sendMessage(from, );
-                     } else if (messageType === '3') {
-                     await conn.sendMessage(from, { react: { text: '⬇️', key: mek.key } });
-                    const result = await ddownr.download(url, 'mp3'); // Download in mp3 format
-                    const downloadLink = result.downloadUrl;
-                await conn.sendMessage(from, { react: { text: '⬆️', key: mek.key } });  
-                    await conn.sendMessage(from, { 
-                        audio: { url: downloadLink }, 
-                        mimetype: "audio/mpeg" ,
-                        ptt: "true" ,
-                        contextInfo: {
-                            externalAdReply: {
-                                title: data.title,
-                                body: data.videoId,
-                                mediaType: 1,
-                                sourceUrl: data.url,
-                                thumbnailUrl: data.thumbnail, // This should match the image URL provided above
-                                renderLargerThumbnail: true,
-                                showAdAttribution: true
-                            }
-                        }
-                    
-                    }, { quoted: mek });
-                    await conn.sendMessage(from,); 
+            // Fetch audio from Kaiz-API
+            const apiUrl = `${KAIZ_API_URL}?url=${encodeURIComponent(videoUrl)}&apikey=${KAIZ_API_KEY}`;
+            let songData;
+            
+            try {
+                const apiResponse = await axiosInstance.get(apiUrl);
+                if (!apiResponse.data?.download_url) {
+                    throw new Error('Invalid API response');
                 }
+                songData = apiResponse.data;
+            } catch (apiError) {
+                console.error('API error:', apiError);
+                return reply('❌ Audio download failed. The service might be unavailable.');
             }
-        });
-        
- } catch (e) {
-        console.log(e);
-        reply(`${e}`);
+
+            // Get thumbnail
+            let thumbnailBuffer;
+            try {
+                const thumbnailUrl = videoInfo?.thumbnail;
+                if (thumbnailUrl) {
+                    const response = await axiosInstance.get(thumbnailUrl, { 
+                        responseType: 'arraybuffer',
+                        timeout: 8000 
+                    });
+                    thumbnailBuffer = Buffer.from(response.data, 'binary');
+                }
+            } catch (e) {
+                console.error('Thumbnail error:', e);
+                thumbnailBuffer = null;
+            }
+
+            // Prepare song information message
+           const songInfo = `╭───『 🎧 𝚜𝚘𝚗𝚐 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍𝚎𝚛 』──
+│
+│ 📀 𝚃𝙸𝚃𝙻𝙴    : ${songData.title || videoInfo?.title || 'Unknown'}
+│ ⏱️ 𝙳𝚄𝚁𝙰𝚃𝙸𝙾𝙽 : ${videoInfo?.timestamp || 'Unknown'}
+│ 👁️ 𝚅𝙸𝙴𝚆𝚂    : ${videoInfo?.views?.toLocaleString() || 'Unknown'}
+│ 🌍 𝙿𝚄𝙱𝙻𝙸𝚂𝙷𝙴𝙳 : ${videoInfo?.ago || 'Unknown'}
+│ 👤 𝙰𝚄𝚃𝙷𝙾𝚁   : ${videoInfo?.author?.name || 'Unknown'}
+│ 🔗 𝚄𝚁𝙻      : ${videoUrl || 'Unknown'}
+│
+╰──────────
+
+╭───⌯ 𝙲𝙷𝙾𝙾𝚂𝙴 𝚃𝚈𝙿𝙴 ⌯───╮
+│ 𝟷. 🎵 𝚊𝚞𝚍𝚒𝚘 𝚝𝚢𝚙𝚎 (𝚙𝚕𝚊𝚢)
+│ 𝟸. 📁 𝚍𝚘𝚌𝚞𝚖𝚎𝚗𝚝 𝚝𝚢𝚙𝚎 (𝚜𝚊𝚟𝚎)
+╰───────────────╯
+
+🔊 𝚁𝚎𝚙𝚕𝚢 𝚠𝚒𝚝𝚑 *1* 𝚘𝚛 *2*
+> ${Config.FOOTER || 'Powered By Lucky Tech Hub'}`;
+
+            // Send song info with thumbnail
+            const sentMsg = await malvin.sendMessage(mek.chat, {
+                image: thumbnailBuffer,
+                caption: songInfo,
+                contextInfo: {
+                    externalAdReply: {
+                        title: songData.title || videoInfo?.title || 'YouTube Audio',
+                        body: `Duration: ${videoInfo?.timestamp || 'N/A'}`,
+                        thumbnail: thumbnailBuffer,
+                        mediaType: 1,
+                        mediaUrl: videoUrl,
+                        sourceUrl: videoUrl
+                    }
+                }
+            }, { quoted: mek });
+
+            // Set up response listener
+            const timeout = setTimeout(() => {
+                malvin.ev.off('messages.upsert', messageListener);
+                reply("⌛ Session timed out. Please use the command again if needed.");
+            }, 60000);
+
+            const messageListener = async (messageUpdate) => {
+                try {
+                    const mekInfo = messageUpdate?.messages[0];
+                    if (!mekInfo?.message) return;
+
+                    const message = mekInfo.message;
+                    const messageType = message.conversation || message.extendedTextMessage?.text;
+                    const isReplyToSentMsg = message.extendedTextMessage?.contextInfo?.stanzaId === sentMsg.key.id;
+
+                    if (!isReplyToSentMsg || !['1', '2'].includes(messageType?.trim())) return;
+
+                    // Clean up listener and timeout
+                    malvin.ev.off('messages.upsert', messageListener);
+                    clearTimeout(timeout);
+
+                    await reply("⏳ Downloading your audio... Please wait...");
+
+                    // Download audio
+                    const audioResponse = await axiosInstance.get(songData.download_url, {
+                        responseType: 'arraybuffer',
+                        headers: { 
+                            Referer: 'https://www.youtube.com/',
+                            'Accept-Encoding': 'identity'
+                        },
+                        timeout: 30000
+                    });
+
+                    const audioBuffer = Buffer.from(audioResponse.data, 'binary');
+                    const fileName = `${(songData.title || videoInfo?.title || 'audio').replace(/[<>:"\/\\|?*]+/g, '')}.mp3`;
+
+                    // Send audio based on user choice
+                    if (messageType.trim() === "1") {
+                        await malvin.sendMessage(mek.chat, {
+                            audio: audioBuffer,
+                            mimetype: 'audio/mpeg',
+                            fileName: fileName,
+                            ptt: false
+                        }, { quoted: mek });
+                    } else {
+                        await malvin.sendMessage(mek.chat, {
+                            document: audioBuffer,
+                            mimetype: 'audio/mpeg',
+                            fileName: fileName
+                        }, { quoted: mek });
+                    }
+
+                    // Send success reaction
+                    try {
+                        if (mekInfo?.key?.id) {
+                            await malvin.sendMessage(mek.chat, { react: { text: "✅", key: mekInfo.key } });
+                        }
+                    } catch (reactError) {
+                        console.error('Success reaction failed:', reactError);
+                    }
+
+                } catch (error) {
+                    console.error('Download error:', error);
+                    await reply('❌ Download failed: ' + (error.message || 'Network error'));
+                    try {
+                        if (mek?.key?.id) {
+                            await malvin.sendMessage(mek.chat, { react: { text: "❌", key: mek.key } });
+                        }
+                    } catch (reactError) {
+                        console.error('Error reaction failed:', reactError);
+                    }
+                }
+            };
+
+            malvin.ev.on('messages.upsert', messageListener);
+
+        } catch (error) {
+            console.error('Main error:', error);
+            reply('❌ An unexpected error occurred: ' + (error.message || 'Please try again later'));
+            try {
+                if (mek?.key?.id) {
+                    await malvin.sendMessage(mek.chat, { react: { text: "❌", key: mek.key } });
+                }
+            } catch (reactError) {
+                console.error('Final reaction failed:', reactError);
+            }
+        }
     }
-});  
-      
+);
