@@ -3,12 +3,12 @@
   
 ______
 
-[![Shaban](https://raw.githubusercontent.com/MRSHABAN45/SHABAN-MD/main/Shaban/mr.svg)](https://whatsapp.com/channel/0029VazjYjoDDmFZTZ9Ech3O)
+[![Shaban](https://raw.githubusercontent.com/MRSHABAN45/SHABAN-MD/main/Shaban/mr.svg)](https://whatsapp.com/channel/0029VbAq4fXE50UjplF09D3A)
 ___ 
 
 <p align="center">
-  <a href="https://github.com/MRSHABAN45" target="_blank">
-    <img src="./Shaban/dev-gold-mini.svg" width="300" alt="Developer — MR SHABAN (Gold 3D)">
+  <a href="https://github.com/kingshashiboy" target="_blank">
+    <img src="./Shaban/dev-gold-mini.svg" width="300" alt="Developer — SHASHIKA (Gold 3D)">
   </a>
 </p>
 
@@ -22,8 +22,8 @@ ___
 ---------
 
 <p align="center">
-<a href="https://github.com/MRSHABAN45/SHABAN-MD"><img title="PUBLIC-BOT" src="https://img.shields.io/static/v1?label=Language&message=JavaScript&style=square&color=darkpink"></a> &nbsp;
-  <img src="https://komarev.com/ghpvc/?username=SHABAN-MD&label=VIEWS&style=square&color=blue" />
+<a href="https://github.com/kingshashiboy/king-MD"><img title="PUBLIC-BOT" src="https://img.shields.io/static/v1?label=Language&message=JavaScript&style=square&color=darkpink"></a> &nbsp;
+  <img src="https://komarev.com/ghpvc/?username=king-MD&label=VIEWS&style=square&color=blue" />
 </p>
 
 
@@ -45,7 +45,7 @@ ___
 
 
  <p align="center">
-  <a href="https://github.com/MRSHABAN45/SHABAN-MD/fork" target="_blank">
+  <a href="https://github.com/kingshashiboy/king-MD/fork" target="_blank">
     <img src="Shaban/forkstar-holo.svg" width="180" alt="Fork Star Bot Repo"/>
   </a>
 </p>
@@ -60,13 +60,13 @@ ___
 -------------
 
 <p align="center">
-  <img src="./Shaban/deployment.svg" width="600" alt="SHABAN MD — News Ticker Typing">
+  <img src="./Shaban/deployment.svg" width="600" alt="king-MD — News Ticker Typing">
 </p>
 
 <div align="center">
   <table>
     <tr>
-      <td><a href="https://dashboard.heroku.com/new-app?template=https://github.com/MRSHABAN45/SHABAN-MD" target="_blank"><img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white&labelColor=000000&color=0000FF"/></a></td>
+      <td><a href="https://dashboard.heroku.com/new-app?template=https://github.com/kingshashiboy/king-MD" target="_blank"><img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white&labelColor=000000&color=0000FF"/></a></td>
       <td><a href="https://shaban.lovestoblog.com/" target="_blank"><img src="https://img.shields.io/badge/official-site-A52A2A?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=000000"/></a></td>
     </tr>
     <tr>
@@ -92,7 +92,7 @@ ___
 
 -------------
 
-**_✠ FREE DEPLOYMENT OF SHABAN MD GITHUB WORKFLOW CODE NEW ADD ERROR FIXED ✠_**
+**_❤️‍🔥 FREE GITHUB WORKFLOW CODE ❤️‍🔥 _**
 
 ```
 
@@ -152,24 +152,6 @@ jobs:
 <p align="center">
   <img src="https://i.imgur.com/LyHic3i.gif" alt="footer divider"/>
 </p>
-
-## ⚠️ _WARNING !_
-
-<div style="background-color: #000000; border-left: 5px solid #ff00ff; padding: 10px; border-radius: 0 15px 15px 0; box-shadow: 0 0 15px #ff00ff;">
-  <h3 style="color: #00ffff; font-family: 'Orbitron', sans-serif;">DISCLAIMER</h3>
-  <p style="color: #ffffff;">This Bot Is Not Affiliated With WhatsApp Inc. Use At Your Own Risk Misuse May Result In Account Bans</p>
-</div>
-
-
-<div align="center">
-  <!-- Glowing Header -->
-<p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p>
-  <a href="https://github.com/MRSHABAN45">
-    <img src="https://github-readme-stats.vercel.app/api?username=MRSHABAN45&show_icons=true&theme=dark&border_color=00ffff&title_color=00ffff&icon_color=00ffff" width="400"/>
-  </a>
-</div>
 <!-- Glowing Header -->
 <p align="center">
   <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
