@@ -1,7 +1,7 @@
 const { cmd, commands } = require('../command');
 const axios = require('axios');
 
-lite({
+cmd({
     pattern: "pair",
     alias: ["getpair", "clonebot"],
     react: "✅",
