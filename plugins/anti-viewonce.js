@@ -1,6 +1,6 @@
 const { cmd } = require("../command");
 
-lite({
+cmd({
   pattern: "vv2",
   alias: ["wah", "ohh", "oho", "🙂", "nice", "ok"],
   desc: "Owner Only - retrieve quoted message back to user",
