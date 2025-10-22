@@ -2,7 +2,16 @@
   
 ______
 
-[![Shaban](https://raw.githubusercontent.com/kingshashiboy/king-MD/main/SHASHIKA/mr.svg)](https://whatsapp.com/channel/0029VbAq4fXE50UjplF09D3A)
+<img src="https://i.imgur.com/dBaSKWF.gif" height="90" width="100%">
+𝐒𝐢𝐦𝐩𝐥𝐞 𝐁𝐞𝐬𝐭 𝐖𝐡𝐚𝐭𝐬𝐚𝐩𝐩 𝐁𝐨𝐭 𝐂𝐫𝐞𝐚𝐭𝐞𝐝 𝐁𝐲 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐬𝐡𝐚𝐬𝐡𝐢𝐤𝐚 𝐝𝐢𝐥𝐬𝐡𝐚𝐧
+<div class = "repo" align = "center">
+ 
+<a href = "#">
+<img src = "https://files.catbox.moe/4kux2y.jpg"  width="300" height="200">
+</img>
+ <p align="center">
+  <a href="#"><img src="http://read   me-typing-svg.herokuapp.com?color=ff00ab&center=true&vCenter=true&multiline=false&lines=𝐀𝐆𝐍𝐈-MD+WHATSAPP+BOT" alt="">
+
 ___ 
 
 <p align="center">
