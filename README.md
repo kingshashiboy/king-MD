@@ -1,4 +1,4 @@
-![WELLCOME](SHASHIKAwellcome.svg)
+![WELLCOME](SHASHIKA/wellcome.svg)
   
 ______
 
