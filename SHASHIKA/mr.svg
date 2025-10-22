@@ -57,7 +57,7 @@
 
   <!-- Title text -->
   <text x="50%" y="90" text-anchor="middle" font-size="42" font-family="Segoe UI, Verdana, sans-serif" fill="url(#rainbow)">
-    𓅓 SHABAN MD 𓅓
+   ♻️AGNI MD♻️
     <animateTransform attributeName="transform" type="scale" values="1;1.03;1" dur="3s" repeatCount="indefinite"/>
   </text>
 
@@ -74,6 +74,6 @@
 
   <!-- Footer text -->
   <text x="50%" y="360" text-anchor="middle" font-size="20" font-family="Segoe UI, Verdana, sans-serif" fill="url(#rainbow)">
-    ➪ CREATED BY MR SHABAN ☢︎︎
+    ➪ MADE BY SHASHIKA DILSHAN
   </text>
 </svg>
