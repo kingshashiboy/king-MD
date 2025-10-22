@@ -104,7 +104,7 @@
   <text x="600" y="62" text-anchor="middle"
         font-family="Segoe UI, Inter, system-ui, Arial, sans-serif"
         font-size="28" font-weight="900" fill="#E6F7FF" filter="url(#softGlow)" letter-spacing="1.2">
-    BOT FEATURE ⏬
+    BOT CAN USE FOR☘️
   </text>
 
   <!-- Feature columns -->
@@ -150,6 +150,7 @@
       <tspan x="980" dy="24">• Names Change</tspan>
       <tspan x="980" dy="24">• Description Change</tspan>
       <tspan x="980" dy="24">• Fun Commands</tspan>
+      <tspan x="980" dy="24">• weather check</tspan>
       <tspan x="980" dy="24">• Tools Converter</tspan>
     </text>
   </g>
