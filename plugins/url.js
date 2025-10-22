@@ -5,7 +5,7 @@ const os = require('os');
 const path = require("path");
 const { cmd, commands } = require("../command");
 
-lite({
+cmd({
   'pattern': "tourl",
   'alias': ["imgtourl", "imgurl", "url", "geturl", "upload"],
   'react': '🖇',
