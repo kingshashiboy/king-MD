@@ -15,17 +15,11 @@ ______
 ___ 
 
 <p align="center">
-  <a href="https://github.com/MRSHABAN45" target="_blank">
-    <img src="./Shaban/dev-gold-mini.svg" width="300" alt="Developer — MR SHABAN (Gold 3D)">
+  <a href="https://github.com/kingshashiboy" target="_blank">
+    <img src="./SHASHIKA/dev-gold-mini.svg" width="300" alt="Developer — SHASHIKA DILSHAN (Gold 3D)">
   </a>
 </p>
 
-  
-<p align="center">
-  <a href="https://whatsapp.com/channel/0029Vb6aq4cCHDygiEqJZl0S" target="_blank">
-    <img src="./Shaban/channel-update.svg" width="350" alt="Bot Updating — WhatsApp Channel | Join Fast">
-  </a>
-</p>
 
 ---------
 
@@ -64,13 +58,13 @@ ___
 <div align="center">
   <table>
     <tr>
-      <td><a href="https://dashboard.heroku.com/new-app?template=https://github.com/MRSHABAN45/SHABAN-MD" target="_blank"><img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white&labelColor=000000&color=0000FF"/></a></td>
+      <td><a href="https://dashboard.heroku.com/new-app?template=https://github.com/kingshashiboy/king-MD" target="_blank"><img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white&labelColor=000000&color=0000FF"/></a></td>
     </tr>
     <tr>
       <td><a href="https://railway.app/new" target="_blank"><img src="https://img.shields.io/badge/Railway-000080?style=for-the-badge&logo=railway&logoColor=white&labelColor=000000"/></a></td>
     </tr>
     <tr>
-      <td><a href="https://github.com/iTx-Sarkar/SMD-Render" target="_blank"><img src="https://img.shields.io/badge/Render-000000?style=for-the-badge&logo=render&logoColor=white&labelColor=000000&color=FFFF00"/></a></td>
+      <td><a href="https://github.com/kingshashiboy/king-MD" target="_blank"><img src="https://img.shields.io/badge/Render-000000?style=for-the-badge&logo=render&logoColor=white&labelColor=000000&color=FFFF00"/></a></td>
     </tr>
   </table>
 </div>
@@ -78,7 +72,7 @@ ___
 <table align="center">
   <tr>
     <td>
-      <a href="https://github.com/iTx-Sarkar/SMD-Render" target="_blank">
+      <a href="https://github.com/kingshashiboy/king-MD" target="_blank">
         <img alt="Deploy From Render" src="https://img.shields.io/badge/Deploy-Only%20Render%20Repo-4CAF50?style=for-the-badge&logo=render&logoColor=white"/>
       </a>
     </td>
@@ -151,7 +145,7 @@ jobs:
   <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
 </p>
   <a href="https://github.com/kingshashiboy">
-    <img src="https://github-readme-stats.vercel.app/api?username=MRSHABAN45&show_icons=true&theme=dark&border_color=00ffff&title_color=00ffff&icon_color=00ffff" width="400"/>
+    <img src="https://github-readme-stats.vercel.app/api?username=kingshashiboy&show_icons=true&theme=dark&border_color=00ffff&title_color=00ffff&icon_color=00ffff" width="400"/>
   </a>
 </div>
 <!-- Glowing Header -->
@@ -170,4 +164,4 @@ jobs:
 
 
 <p align="center">
-<img src="Shaban/nolove.svg" alt="NoLove" width="250"/>
+<img src="SHASHIKA/nolove.svg" alt="NoLove" width="250"/>
