@@ -7,11 +7,11 @@ ______
 <div class = "repo" align = "center">
  
 <a href = "#">
-<img src = "https://files.catbox.moe/4kux2y.jpg"  width="300" height="200">
+<img src = "https://files.catbox.moe/4kux2y.jpg"  width="400" height="300">
 </img>
  <p align="center">
   <a href="#"><img src="http://read   me-typing-svg.herokuapp.com?color=ff00ab&center=true&vCenter=true&multiline=false&lines=𝐀𝐆𝐍𝐈-MD+WHATSAPP+BOT" alt="">
-
+<a/></img>
 ___ 
 
 <p align="center">
