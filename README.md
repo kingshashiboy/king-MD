@@ -48,7 +48,7 @@ ___
 
  <p align="center">
   <a href="https://github.com/kingshashiboy/king-MD/fork" target="_blank">
-    <img src="king-MD/forkstar-holo.svg" width="180" alt="Fork Star Bot Repo"/>
+    <img src="SHASHIKA/forkstar-holo.svg" width="180" alt="Fork Star Bot Repo"/>
   </a>
 </p>
 
