@@ -1,7 +1,7 @@
 const { cmd } = require('../command');
 const config = require('../config');
 
-lite({
+cmd({
     pattern: "users",
     alias: ["allusers", "userlist"],
     desc: "Shows all users of the bot (Owner Only)",
