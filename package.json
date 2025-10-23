@@ -39,6 +39,7 @@
     "pdfkit": "^0.17.1",
     "google-tts-api": "^2.0.2",
     "mrnima-moviedl": "1.0.0",
-    "api-dylux":"1.8.5"
+    "api-dylux":"1.8.5",
+    "jimp": "^0.16.1"
   }
 }
