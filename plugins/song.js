@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { cmd } = require('../command');
 
 module.exports = {
   name: "song",
@@ -16,7 +17,7 @@ module.exports = {
 
       m.reply("⏳ *Downloading your song... Please wait!*");
 
-      const apiUrl = `https://apiskeith.vercel.app/download/yta2?url=${encodeURIComponent(
+      const apiUrl = `https://apis.davidcyriltech.my.id/song?url=${encodeURIComponent(
         text
       )}`;
 
