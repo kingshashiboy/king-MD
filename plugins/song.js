@@ -1,83 +1,46 @@
-const { cmd } = require("../command");
-const yts = require("yt-search");
 const axios = require("axios");
 
-cmd(
-  {
-    pattern: "song",
-    react: "🎵",
-    desc: "Download YouTube song using apiskeith API",
-    category: "download",
-    filename: __filename,
-  },
-  async (malvin, mek, m, { from, args, reply }) => {
+module.exports = {
+  name: "song",
+  alias: ["yta", "music", "mp3"],
+  desc: "Download YouTube song as MP3",
+  category: "downloader",
+  usage: "song <YouTube link or title>",
+  react: "🎧",
+  async exec(malvin, m, { text, prefix, command }) {
     try {
-      const q = args.join(" ");
-      if (!q) return reply("🎶 *Please provide a YouTube link or song name!*");
+      if (!text)
+        return m.reply(
+          `🎶 *Usage:* ${prefix}${command} <YouTube Link>\n\n📌 Example:\n${prefix}${command} https://youtube.com/watch?v=60ItHLz5WEA`
+        );
 
-      // 🔍 1) Get YouTube URL
-      let url = q;
-      try {
-        url = new URL(q).toString();
-      } catch {
-        const search = await yts(q);
-        if (!search?.videos?.length) return reply("❌ *No results found!*");
-        url = search.videos[0].url;
-      }
+      m.reply("⏳ *Downloading your song... Please wait!*");
 
-      // 🧾 2) Get video info
-      const s = await yts(url);
-      const info = s?.videos?.[0];
-      if (!info) return reply("❌ *Failed to fetch video info!*");
-
-      const caption = `
-🎧 *BLACK WOLF SONG DOWNLOADER* 🐺
-
-🎵 *Title:* ${info.title}
-⏱️ *Duration:* ${info.timestamp}
-📆 *Published:* ${info.ago}
-👀 *Views:* ${info.views.toLocaleString()}
-🔗 *Link:* ${info.url}
-
-━━━━━━━━━━━━━━━
-*Powered by Shashika ⚡*
-      `.trim();
-
-      await malvin.sendMessage(
-        from,
-        { image: { url: info.thumbnail }, caption },
-        { quoted: mek }
-      );
-
-      // 🎼 3) Download audio via API
-      const apiUrl = `https://apiskeith.vercel.app/download/yta2?url=${encodeURIComponent(url)}`;
-      reply("⏳ *Fetching high-quality MP3... please wait!*");
+      const apiUrl = `https://apiskeith.vercel.app/download/yta2?url=${encodeURIComponent(
+        text
+      )}`;
 
       const res = await axios.get(apiUrl);
       const data = res.data;
 
-      if (!data || !data.url) {
-        return reply("❌ *Failed to get download link from API!*");
-      }
+      if (!data.status || !data.result)
+        return m.reply("❌ *Failed to download song. Try another link!*");
 
-      const audioUrl = data.url;
-      const title = info.title || "YouTube Audio";
+      const audioUrl = data.result;
 
-      // 🎵 4) Send audio to user
       await malvin.sendMessage(
-        from,
+        m.from,
         {
           audio: { url: audioUrl },
           mimetype: "audio/mpeg",
-          fileName: `${title}.mp3`,
-          caption: `🎶 *${title}*\n\nDownloaded via *BLACK WOLF BOT 🐺*`,
+          fileName: "BlackWolf-Song.mp3",
+          caption: `🎵 *Downloaded via Black Wolf Bot 🐺*\n\n📻 Source: YouTube\n🔗 ${text}`,
         },
-        { quoted: mek }
+        { quoted: m }
       );
-
-    } catch (e) {
-      console.error("Error in song command:", e);
-      reply(`❌ *Error:* ${e.message}`);
+    } catch (err) {
+      console.error(err);
+      m.reply("⚠️ *Error:* Unable to fetch song. Try again later.");
     }
-  }
-);
+  },
+};
