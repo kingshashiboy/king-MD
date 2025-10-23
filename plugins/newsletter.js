@@ -2,42 +2,39 @@ const { cmd } = require("../command");
 
 cmd({
   pattern: "newsletter",
-  alias: ["cjid", "id"],
+  alias: ["cid","id"],
   react: "📡",
   desc: "Get WhatsApp Channel info from link",
-  category: "convert",
+  category: "whatsapp",
   filename: __filename
-}, async (conn, mek, m, { from, args, q, reply }) => {
+}, async (conn, mek, m, {
+  from,
+  args,
+  q,
+  reply
+}) => {
   try {
-    if (!q)
-      return reply(`❎ *Please provide a WhatsApp Channel link.*\n\n📌 *Example:*\n.newsletter https://whatsapp.com/channel/xxxxxxxxxx`);
+    if (!q) return reply("❎ Please provide a WhatsApp Channel link.\n\n*Example:* .cinfo https://whatsapp.com/channel/123456789");
 
     const match = q.match(/whatsapp\.com\/channel\/([\w-]+)/);
-    if (!match)
-      return reply(`⚠️ *Invalid channel link!*\n\nMake sure it looks like:\nhttps://whatsapp.com/channel/xxxxxxxxx`);
+    if (!match) return reply("⚠️ *Invalid channel link format.*\n\nMake sure it looks like:\nhttps://whatsapp.com/channel/xxxxxxxxx");
 
     const inviteId = match[1];
-    let metadata;
 
+    let metadata;
     try {
       metadata = await conn.newsletterMetadata("invite", inviteId);
-    } catch {
-      return reply("🚫 *Failed to fetch channel info.*\nDouble-check the link and try again.");
+    } catch (e) {
+      return reply("❌ Failed to fetch channel metadata. Make sure the link is correct.");
     }
 
-    if (!metadata?.id)
-      return reply("❌ *Channel not found or inaccessible.*");
+    if (!metadata || !metadata.id) return reply("❌ Channel not found or inaccessible.");
 
-    const infoText = `
-╭─❍『 📡 NEWSLETTER』❍─
-│
-│ 🔖 *ID:* ${metadata.id}
-│ 🗂️ *Name:* ${metadata.name}
-│ 👥 *Followers:* ${metadata.subscribers?.toLocaleString() || "N/A"}
-│ 🗓️ *Created:* ${metadata.creation_time ? new Date(metadata.creation_time * 1000).toLocaleString("id-ID") : "Unknown"}
-│
-╰─⭓ ᴘᴏᴡᴇʀᴇᴅ ʙʏ *AGNI*
-`;
+    const infoText = `*— 乂 Channel Info —*\n\n` +
+      `🆔 *ID:* ${metadata.id}\n` +
+      `📌 *Name:* ${metadata.name}\n` +
+      `👥 *Followers:* ${metadata.subscribers?.toLocaleString() || "N/A"}\n` +
+      `📅 *Created on:* ${metadata.creation_time ? new Date(metadata.creation_time * 1000).toLocaleString("id-ID") : "Unknown"}`;
 
     if (metadata.preview) {
       await conn.sendMessage(from, {
@@ -45,11 +42,11 @@ cmd({
         caption: infoText
       }, { quoted: m });
     } else {
-      reply(infoText);
+      await reply(infoText);
     }
 
-  } catch (err) {
-    console.error("❌ Newsletter Error:", err);
-    reply("⚠️ *An unexpected error occurred while fetching the channel info.*");
+  } catch (error) {
+    console.error("❌ Error in .cinfo plugin:", error);
+    reply("⚠️ An unexpected error occurred.");
   }
 });
