@@ -19,7 +19,7 @@ cmd({
   alias: ["adedit"],
   react: '📸',
   desc: "Scan and remove bg from images",
-  category: "tool",
+  category: "img_edit",
   use: ".ad [reply to image]",
   filename: __filename
 }, async (conn, message, m,  { reply, mek }) => {
