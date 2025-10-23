@@ -1,249 +1,107 @@
-
-
-const { cmd } = require('../command');
-const axios = require('axios');
-const yts = require('yt-search');
-const Config = require('../config');
-
-// Optimized axios instance
-const axiosInstance = axios.create({
-  timeout: 15000,
-  maxRedirects: 5,
-  headers: {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-  }
-});
-
-// Kaiz-API configuration
-const KAIZ_API_KEY = 'cf2ca612-296f-45ba-abbc-473f18f991eb'; // Replace if needed
-const KAIZ_API_URL = 'https://kaiz-apis.gleeze.com/api/ytdown-mp3';
+const { cmd } = require("../command");
+const yts = require("yt-search");
+const axios = require("axios");
 
 cmd(
-    {
-        pattern: 'song',
-        alias: ['ytaudio', 'music'],
-        desc: 'High quality YouTube audio downloader',
-        category: 'media',
-        react: '🎵',
-        use: '<YouTube URL or search query>',
-        filename: __filename,
-    },
-    async (malvin, mek, m, { text, reply }) => {
-        try {
-            if (!text) return reply('🎵 *Usage:* .song <query/url>\nExample: .song https://youtu.be/ox4tmEV6-QU\n.song Alan Walker faded');
+  {
+    pattern: "song",
+    react: "🎵",
+    desc: "Download YouTube Audio",
+    category: "download",
+    filename: __filename,
+  },
+  async (malvin, mek, m, { from, args, reply }) => {
+    try {
+      const q = args.join(" ");
+      if (!q) return reply("*Provide a name or a YouTube link.* 🎵❤️");
 
-            // Send initial reaction
-            try {
-                if (mek?.key?.id) {
-                    await malvin.sendMessage(mek.chat, { react: { text: "⏳", key: mek.key } });
-                }
-            } catch (reactError) {
-                console.error('Reaction error:', reactError);
-            }
+      // 1) Find the URL
+      let url = q;
+      try {
+        url = new URL(q).toString();
+      } catch {
+        const s = await yts(q);
+        if (!s?.videos?.length) return reply("❌ No videos found!");
+        url = s.videos[0].url;
+      }
 
-            // Get video information
-            let videoUrl, videoInfo;
-            const isYtUrl = text.match(/(youtube\.com|youtu\.be)/i);
-            
-            if (isYtUrl) {
-                // Handle YouTube URL
-                const videoId = text.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i)?.[1];
-                if (!videoId) return reply('❌ Invalid YouTube URL format');
-                
-                videoUrl = `https://youtu.be/${videoId}`;
-                try {
-                    videoInfo = await yts({ videoId });
-                    if (!videoInfo) throw new Error('Could not fetch video info');
-                } catch (e) {
-                    console.error('YT-Search error:', e);
-                    return reply('❌ Failed to get video information from URL');
-                }
-            } else {
-                // Handle search query
-                try {
-                    const searchResults = await yts(text);
-                    if (!searchResults?.videos?.length) {
-                        return reply('❌ No results found. Try different keywords.');
-                    }
+      // 2) Validate URL
+      if (!url.includes("youtube.com") && !url.includes("youtu.be")) {
+        return reply("❌ Invalid YouTube URL!");
+      }
 
-                    // Filter results (exclude live streams and very long videos)
-                    const validVideos = searchResults.videos.filter(v => 
-                        !v.live && v.seconds < 7200 && v.views > 10000
-                    );
-
-                    if (!validVideos.length) {
-                        return reply('❌ Only found live streams/unpopular videos. Try a different search.');
-                    }
-
-                    // Select best match (top result by default)
-                    videoInfo = validVideos[0];
-                    videoUrl = videoInfo.url;
-
-                    console.log('Selected video:', {
-                        title: videoInfo.title,
-                        duration: videoInfo.timestamp,
-                        views: videoInfo.views.toLocaleString(),
-                        url: videoInfo.url
-                    });
-                } catch (searchError) {
-                    console.error('Search error:', searchError);
-                    return reply('❌ Search failed. Please try again later.');
-                }
-            }
-
-            // Fetch audio from Kaiz-API
-            const apiUrl = `${KAIZ_API_URL}?url=${encodeURIComponent(videoUrl)}&apikey=${KAIZ_API_KEY}`;
-            let songData;
-            
-            try {
-                const apiResponse = await axiosInstance.get(apiUrl);
-                if (!apiResponse.data?.download_url) {
-                    throw new Error('Invalid API response');
-                }
-                songData = apiResponse.data;
-            } catch (apiError) {
-                console.error('API error:', apiError);
-                return reply('❌ Audio download failed. The service might be unavailable.');
-            }
-
-            // Get thumbnail
-            let thumbnailBuffer;
-            try {
-                const thumbnailUrl = videoInfo?.thumbnail;
-                if (thumbnailUrl) {
-                    const response = await axiosInstance.get(thumbnailUrl, { 
-                        responseType: 'arraybuffer',
-                        timeout: 8000 
-                    });
-                    thumbnailBuffer = Buffer.from(response.data, 'binary');
-                }
-            } catch (e) {
-                console.error('Thumbnail error:', e);
-                thumbnailBuffer = null;
-            }
-
-            // Prepare song information message
-           const songInfo = `╭───『 🎧 𝚜𝚘𝚗𝚐 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍𝚎𝚛 』──
-│
-│ 📀 𝚃𝙸𝚃𝙻𝙴    : ${songData.title || videoInfo?.title || 'Unknown'}
-│ ⏱️ 𝙳𝚄𝚁𝙰𝚃𝙸𝙾𝙽 : ${videoInfo?.timestamp || 'Unknown'}
-│ 👁️ 𝚅𝙸𝙴𝚆𝚂    : ${videoInfo?.views?.toLocaleString() || 'Unknown'}
-│ 🌍 𝙿𝚄𝙱𝙻𝙸𝚂𝙷𝙴𝙳 : ${videoInfo?.ago || 'Unknown'}
-│ 👤 𝙰𝚄𝚃𝙷𝙾𝚁   : ${videoInfo?.author?.name || 'Unknown'}
-│ 🔗 𝚄𝚁𝙻      : ${videoUrl || 'Unknown'}
-│
-╰──────────
-
-╭───⌯ 𝙲𝙷𝙾𝙾𝚂𝙴 𝚃𝚈𝙿𝙴 ⌯───╮
-│ 𝟷. 🎵 𝚊𝚞𝚍𝚒𝚘 𝚝𝚢𝚙𝚎 (𝚙𝚕𝚊𝚢)
-│ 𝟸. 📁 𝚍𝚘𝚌𝚞𝚖𝚎𝚗𝚝 𝚝𝚢𝚙𝚎 (𝚜𝚊𝚟𝚎)
-╰───────────────╯
-
-🔊 𝚁𝚎𝚙𝚕𝚢 𝚠𝚒𝚝𝚑 *1* 𝚘𝚛 *2*
-> ${Config.FOOTER || 'Powered By Lucky Tech Hub'}`;
-
-            // Send song info with thumbnail
-            const sentMsg = await malvin.sendMessage(mek.chat, {
-                image: thumbnailBuffer,
-                caption: songInfo,
-                contextInfo: {
-                    externalAdReply: {
-                        title: songData.title || videoInfo?.title || 'YouTube Audio',
-                        body: `Duration: ${videoInfo?.timestamp || 'N/A'}`,
-                        thumbnail: thumbnailBuffer,
-                        mediaType: 1,
-                        mediaUrl: videoUrl,
-                        sourceUrl: videoUrl
-                    }
-                }
-            }, { quoted: mek });
-
-            // Set up response listener
-            const timeout = setTimeout(() => {
-                malvin.ev.off('messages.upsert', messageListener);
-                reply("⌛ Session timed out. Please use the command again if needed.");
-            }, 60000);
-
-            const messageListener = async (messageUpdate) => {
-                try {
-                    const mekInfo = messageUpdate?.messages[0];
-                    if (!mekInfo?.message) return;
-
-                    const message = mekInfo.message;
-                    const messageType = message.conversation || message.extendedTextMessage?.text;
-                    const isReplyToSentMsg = message.extendedTextMessage?.contextInfo?.stanzaId === sentMsg.key.id;
-
-                    if (!isReplyToSentMsg || !['1', '2'].includes(messageType?.trim())) return;
-
-                    // Clean up listener and timeout
-                    malvin.ev.off('messages.upsert', messageListener);
-                    clearTimeout(timeout);
-
-                    await reply("⏳ Downloading your audio... Please wait...");
-
-                    // Download audio
-                    const audioResponse = await axiosInstance.get(songData.download_url, {
-                        responseType: 'arraybuffer',
-                        headers: { 
-                            Referer: 'https://www.youtube.com/',
-                            'Accept-Encoding': 'identity'
-                        },
-                        timeout: 30000
-                    });
-
-                    const audioBuffer = Buffer.from(audioResponse.data, 'binary');
-                    const fileName = `${(songData.title || videoInfo?.title || 'audio').replace(/[<>:"\/\\|?*]+/g, '')}.mp3`;
-
-                    // Send audio based on user choice
-                    if (messageType.trim() === "1") {
-                        await malvin.sendMessage(mek.chat, {
-                            audio: audioBuffer,
-                            mimetype: 'audio/mpeg',
-                            fileName: fileName,
-                            ptt: false
-                        }, { quoted: mek });
-                    } else {
-                        await malvin.sendMessage(mek.chat, {
-                            document: audioBuffer,
-                            mimetype: 'audio/mpeg',
-                            fileName: fileName
-                        }, { quoted: mek });
-                    }
-
-                    // Send success reaction
-                    try {
-                        if (mekInfo?.key?.id) {
-                            await malvin.sendMessage(mek.chat, { react: { text: "✅", key: mekInfo.key } });
-                        }
-                    } catch (reactError) {
-                        console.error('Success reaction failed:', reactError);
-                    }
-
-                } catch (error) {
-                    console.error('Download error:', error);
-                    await reply('❌ Download failed: ' + (error.message || 'Network error'));
-                    try {
-                        if (mek?.key?.id) {
-                            await malvin.sendMessage(mek.chat, { react: { text: "❌", key: mek.key } });
-                        }
-                    } catch (reactError) {
-                        console.error('Error reaction failed:', reactError);
-                    }
-                }
-            };
-
-            malvin.ev.on('messages.upsert', messageListener);
-
-        } catch (error) {
-            console.error('Main error:', error);
-            reply('❌ An unexpected error occurred: ' + (error.message || 'Please try again later'));
-            try {
-                if (mek?.key?.id) {
-                    await malvin.sendMessage(mek.chat, { react: { text: "❌", key: mek.key } });
-                }
-            } catch (reactError) {
-                console.error('Final reaction failed:', reactError);
-            }
+      // 3) Fetch metadata
+      let info;
+      try {
+        const searchResult = await yts(url);
+        if (!searchResult?.videos?.length) {
+          return reply("❌ Failed to fetch video metadata!");
         }
+        info = searchResult.videos[0];
+      } catch (e) {
+        console.error("Metadata fetch error:", e);
+        return reply("❌ Error fetching video metadata: " + e.message);
+      }
+
+      // 4) Send metadata + thumbnail
+      const desc = `
+🧩 *MALU AUDIO DOWNLOADER* 🧩
+
+📌 *Title:* ${info.title || "Unknown"}
+⏱️ *Uploaded:* ${info.timestamp || "N/A"} (${info.ago || "N/A"})
+👀 *Views:* ${info.views?.toLocaleString() || "N/A"}
+🔗 *Download URL:* ${info.url || url}
+
+━━━━━━━━━━━━━━━━━━
+*ᴍᴀʟᴠɪɴ ᴛᴇᴄʜ🪀*
+      `.trim();
+
+      await malvin.sendMessage(
+        from,
+        { image: { url: info.thumbnail || "https://i.ibb.co/SDWZFh23/malvin-xd.jpg" }, caption: desc },
+        { quoted: mek }
+      );
+
+      // 5) Audio download helper
+      const downloadAudio = async (videoUrl, quality = "mp3") => {
+        const apiUrl = `https://apiskeith.vercel.app/download/audio?url=https://youtube.com/watch?v=60ItHLz5WEA(
+          videoUrl
+        )}&api=60ItHLz5WEA`;
+
+        const res = await axios.get(apiUrl);
+        if (!res.data.success) throw new Error("Failed to fetch audio details.");
+
+        const { id, title } = res.data;
+        const progressUrl = `https://cdn402.savetube.vip/media/60ItHLz5WEA/alan-walker-faded-64-ytshorts.savetube.me.mp3}`;
+
+        // Poll until ready
+        while (true) {
+          const prog = (await axios.get(progressUrl)).data;
+          if (prog.success && prog.progress === 1000) {
+            const audio = await axios.get(prog.download_url, { responseType: "arraybuffer" });
+            return { buffer: audio.data, title: title || info.title || "audio" };
+          }
+          await new Promise((r) => setTimeout(r, 5000));
+        }
+      };
+
+      // 6) Download + send
+      const { buffer, title } = await downloadAudio(url);
+      await malvin.sendMessage(
+        from,
+        {
+          audio: buffer,
+          mimetype: "audio/mpeg",
+          ptt: false,
+          fileName: `${title}.mp3`,
+        },
+        { quoted: mek }
+      );
+
+      reply("*Thanks for using my MP3 bot!* 🎵");
+    } catch (e) {
+      console.error("Error:", e);
+      reply(`❌ Error: ${e.message}`);
     }
+  }
 );
