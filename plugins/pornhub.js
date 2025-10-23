@@ -2,7 +2,7 @@ const axios = require('axios');
 const { cmd } = require("../command");
 const config = require("../config");
 
-const apilink = "https://darkyasiya-new-movie-api.vercel.app/";
+const apilink = "https://apiskeith.vercel.app/download/xvideos?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy";
 const apikey = '';
 const oce = '`';
 
