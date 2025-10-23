@@ -6,7 +6,7 @@ cmd({
   alias: ["setpp", "setdp", "pp"],
   react: "✅",
   desc: "Set full image as bot's profile picture",
-  category: "tools",
+  category: "tool",
   filename: __filename
 }, async (client, message, match, { from, isCreator }) => {
   try {
