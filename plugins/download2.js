@@ -24,7 +24,7 @@ cmd({
       react: { text: "⏳", key: m.key }
     });
 
-    const response = await axios.get(`https://bk9.fun/download/instagram?url=${encodeURIComponent(q)}`);
+    const response = await axios.get(`https://apis.davidcyriltech.my.id/instagram?url=${encodeURIComponent(q)}`);
     const data = response.data;
 
     if (!data || data.status !== true || !data.BK9 || data.BK9.length === 0) {
@@ -60,7 +60,7 @@ cmd({ 'pattern': "tiktok2", 'alias': ['tt2'], 'react': '🎥', 'desc': "download
 
 store.react('⬇️');
 
-let response = await fetch(`https://bk9.fun/download/tiktok2?url=${encodeURIComponent(q)}`);
+let response = await fetch(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(q)}`);
 let jsonData = await response.json();
 
 if (!jsonData.status) {
@@ -134,7 +134,7 @@ await conn.sendMessage(from, {
   react: { text: '⏳', key: m.key }
 });
 
-const response = await fetch(`https://bk9.fun/download/fb?url=${encodeURIComponent(q)}`);
+const response = await fetch(`https://apis.davidcyriltech.my.id/facebook3?url=${encodeURIComponent(q)}`);
 const fbData = await response.json();
 
 if (!fbData.status) {
@@ -232,7 +232,7 @@ await conn.sendMessage(from, {
   react: { text: '⏳', key: m.key }
 });
 
-const response = await axios.get(`https://bk9.fun/download/twitter-2?url=${q}`);
+const response = await axios.get(`https://apis.davidcyriltech.my.id/twitter?url=${q}`);
 const data = response.data;
 
 if (!data || !data.status || !data.BK9 || !data.BK9.BK9) {
@@ -309,7 +309,7 @@ await conn.sendMessage(from, {
   react: { text: "⏳", key: m.key }
 });
 
-const response = await axios.get(`https://bk9.fun/download/mediafire?url=${q}`);
+const response = await axios.get(`https://apis.davidcyriltech.my.id/mediafire?url=${q}`);
 const data = response.data;
 
 if (!data || !data.status || !data.BK9 || !data.BK9.link) {
@@ -363,7 +363,7 @@ cmd({
 
     await conn.sendMessage(from, { react: { text: "⏳", key: m.key } });
 
-    const apiUrl = `http://ws75.aptoide.com/api/7/apps/search/query=${q}/limit=1`;
+    const apiUrl = `https://apis.davidcyriltech.my.id/download/apk?query=${q}/limit=1`;
     const response = await axios.get(apiUrl);
     const data = response.data;
 
