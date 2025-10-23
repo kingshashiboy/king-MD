@@ -6,7 +6,7 @@ cmd({
   alias: ["spotifysrch", "spsearch"],
   desc: "Search for Spotify tracks using a query.",
   react: '✅',
-  category: 'download',
+  category: 'tool',
   filename: __filename
 }, async (conn, m, store, {
   from,
