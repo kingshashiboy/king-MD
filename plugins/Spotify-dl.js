@@ -5,7 +5,7 @@ cmd({
     pattern: "sptdl",
     alias: ["spotifydl", "spotidown"],
     desc: "Download Spotify music as MP3",
-    category: "downloader",
+    category: "download",
     react: "🎵",
     filename: __filename
 },
