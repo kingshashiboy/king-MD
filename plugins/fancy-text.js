@@ -6,7 +6,7 @@ cmd({
   alias: ["font", "style"],
   react: "✍️",
   desc: "Convert text into various fonts.",
-  category: "tools",
+  category: "tool",
   filename: __filename
 }, async (conn, m, store, { from, quoted, args, q, reply }) => {
   try {
