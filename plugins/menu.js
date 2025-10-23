@@ -19,7 +19,7 @@ async (conn, mek, m, {
         let menu = {
             download: '', group: '', fun: '', owner: '',
             ai: '', anime: '', convert: '', reaction: '',
-            main: '', other: '', tool: ''
+            main: '', other: '', tool: '', img_edit: ''
         };
 
         for (let i = 0; i < commands.length; i++) {
@@ -50,6 +50,10 @@ ${menu.download || '│ (No commands found)'}
 
 ┌───『 🎬 Tool Commands 』
 ${menu.tool || '│ (No commands found)'}
+└────────────🍀
+
+┌───『 🎬 img_edit Commands 』
+${menu.img_edit || '│ (No commands found)'}
 └────────────🍀
 
 ┌───『 🧑‍💻 Owner Commands 』
