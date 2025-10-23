@@ -6,7 +6,7 @@ const axios = require('axios');
 
 cmd({
     pattern: "menu",
-    react: "🤖",
+    react: "🥹",
     alias: ["allmenu"],
     desc: "Get command list",
     category: "main",
@@ -19,7 +19,7 @@ async (conn, mek, m, {
         let menu = {
             download: '', group: '', fun: '', owner: '',
             ai: '', anime: '', convert: '', reaction: '',
-            main: '', other: ''
+            main: '', other: '', tool: ''
         };
 
         for (let i = 0; i < commands.length; i++) {
@@ -42,35 +42,39 @@ async (conn, mek, m, {
 ${menu.group || '│ (No commands found)'}
 ${menu.main || ''}
 ${menu.other || ''}
-└─────────────✦
+└─────────────🍀
 
 ┌───『 📥 Downloader Commands 』
 ${menu.download || '│ (No commands found)'}
-└─────────────✦
+└─────────────🍀
+
+┌───『 🎬 Tool Commands 』
+${menu.tool || '│ (No commands found)'}
+└────────────🍀
 
 ┌───『 🧑‍💻 Owner Commands 』
 ${menu.owner || '│ (No commands found)'}
-└─────────────✦
+└─────────────🍀
 
 ┌───『 🧠 AI Commands 』
 ${menu.ai || '│ (No commands found)'}
-└─────────────✦
+└─────────────🍀
 
 ┌───『 ✨ Logo/Anime Commands 』
 ${menu.anime || '│ (No commands found)'}
-└─────────────✦
+└─────────────🍀
 
 ┌───『 🔄 Convert Commands 』
 ${menu.convert || '│ (No commands found)'}
-└─────────────✦
+└─────────────🍀
 
 ┌───『 🎭 Reaction Commands 』
 ${menu.reaction || '│ (No commands found)'}
-└─────────────✦
+└─────────────🍀
 
 ┌───『 🎉 Fun Commands 』
 ${menu.fun || '│ (No commands found)'}
-└─────────────✦
+└─────────────🍀
 
 > ${config.DESCRIPTION}
 `;
