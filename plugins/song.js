@@ -50,7 +50,7 @@ cmd(
       );
 
       // 🎼 3) Download audio via API
-      const apiUrl = `https://apiskeith.vercel.app/download/audio?url=${encodeURIComponent(url)}`;
+      const apiUrl = `https://apiskeith.vercel.app/download/yta2?url=${encodeURIComponent(url)}`;
       reply("⏳ *Fetching high-quality MP3... please wait!*");
 
       const res = await axios.get(apiUrl);
