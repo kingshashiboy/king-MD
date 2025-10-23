@@ -5,7 +5,7 @@ module.exports = {
   name: "song",
   alias: ["yta", "music", "mp3"],
   desc: "Download YouTube song as MP3",
-  category: "downloader",
+  category: "download",
   usage: "song <YouTube link or title>",
   react: "🎧",
   async exec(malvin, m, { text, prefix, command }) {
