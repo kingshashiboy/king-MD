@@ -2,10 +2,9 @@ const axios = require('axios');
 const { cmd } = require("../command");
 const config = require("../config");
 
-const apilink = "https://apiskeith.vercel.app/download/xvideos?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy";
+const apilink = "https://apis.davidcyriltech.my.id/xvideo?url=${q}";
 const apikey = '';
 const oce = '`';
-
 function formatNumber(num) {
     return String(num).padStart(2, '0');
 }
