@@ -20,7 +20,7 @@ cmd(
         from,
         {
           image: {
-            url: "https://files.catbox.moe/ue4ppc.jpg",
+            url: "https://raw.githubusercontent.com/kingshashiboy/king-MD/refs/heads/main/all/alive/Picsart_25-09-06_11-49-44-052.png",
           },
           caption: `𝐀𝐆𝐍𝐈 𝗜𝗦 𝗔𝗟𝗜𝗩𝗘 𝗡𝗢𝗪  
 
