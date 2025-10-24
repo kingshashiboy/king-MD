@@ -23,7 +23,7 @@ cmd({
   try {
     reply(`🔎 Searching Spotify for: *${query}*`);
 
-    const response = await fetch(`https://apis.davidcyriltech.my.id/spotifydl?q=${encodeURIComponent(query)}`);
+    const response = await fetch(`https://apis.davidcyriltech.my.id/search/spotify?text=${encodeURIComponent(query)}`);
     const data = await response.json();
 
     if (!data || !data.status || !data.result || data.result.length === 0) {
