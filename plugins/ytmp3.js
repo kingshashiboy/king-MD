@@ -1,8 +1,5 @@
 const config = require('../config');
-const {
-  cmd,
-  commands
-} = require('../command');
+const { cmd, commands } = require('../command');
 const fetch = require('node-fetch');
 
 cmd({
@@ -11,19 +8,18 @@ cmd({
   react: "🎥",
   desc: "Download YouTube audios as MP3",
   filename: __filename
-},
-async(conn, mek, m, {from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-    try {
-        if (!q) return await reply('Please provide a YouTube audio URL.');
+}, async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
+  try {
+    if (!q) return await reply('Please provide a YouTube audio URL.');
 
-        const url = encodeURIComponent(q);
-        const response = await fetch(`https://apis.davidcyriltech.my.id/youtube/mp3??url=${url}`);
-        const data = await response.json();
+    const url = encodeURIComponent(q);
+    const response = await fetch(`https://apis.davidcyriltech.my.id/youtube/mp3?url=${url}`);
+    const data = await response.json();
 
-        if (!data.status) return await reply('Failed to fetch audio details. Please check the URL and try again.');
+    if (!data.status) return await reply('Failed to fetch audio details. Please check the URL and try again.');
 
-        const audio = data.data;
-        const message = `
+    const audio = data.data;
+    const message = `
 🎶 𝐘𝐓 𝐒𝐎𝐍𝐆 𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃 📥
 
 ╭━━━━━━━━━●●►
@@ -34,27 +30,26 @@ async(conn, mek, m, {from, quoted, body, isCmd, command, args, q, isGroup, sende
 ┢❑ 𝐕𝐢𝐞𝐰𝐬: ${audio.views || 'N/A'}
 ┢❑ 𝐋𝐢𝐤𝐞𝐬: ${audio.likes || 'N/A'}
 ╰━━━━━━━━●●►
-        `;
+`;
 
-       
-        await conn.sendMessage(from, {
-            image: { url: audio.thumbnail },
-            caption: message
-        });
+    await conn.sendMessage(from, {
+      image: { url: audio.thumbnail },
+      caption: message
+    });
 
-        await conn.sendMessage(from, {
-            document: { url: audio.download },
-            mimetype: 'audio/mp3',
-            fileName: `${audio.title}.mp3`,
-            caption: `🍀shashika dilshan🍀'
-        });
+    await conn.sendMessage(from, {
+      document: { url: audio.download },
+      mimetype: 'audio/mp3',
+      fileName: `${audio.title}.mp3`,
+      caption: `🍀shashika dilshan🍀`
+    });
 
-        await conn.sendMessage(from, {
-            react: { text: '✅', key: mek.key }
-        });
-    } catch (e) {
-        console.error(e);
-        await reply(`📕 An error occurred: ${e.message}`);
-    }
+    await conn.sendMessage(from, {
+      react: { text: '✅', key: mek.key }
+    });
+
+  } catch (e) {
+    console.error(e);
+    await reply(`📕 An error occurred: ${e.message}`);
+  }
 });
-                     
