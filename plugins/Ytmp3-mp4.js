@@ -20,7 +20,7 @@ cmd({
         if (yt.results.length < 1) return reply("No results found!");
         
         let yts = yt.results[0];  
-        let apiUrl = `https://apiskeith.vercel.app/download/mp4?url=${encodeURIComponent(yts.url)}`;
+        let apiUrl = `https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(yts.url)}`;
         
         let response = await fetch(apiUrl);
         let data = await response.json();
@@ -29,7 +29,7 @@ cmd({
             return reply("Failed to fetch the video. Please try again later.");
         }
         
-        let ytmsg = `╔═══〔 *𓆩𝐀𝐆𝐍𝐈𓆪* 〕═══❒
+        let ytmsg = `╔═══〔 *𓆩Your BOTNAME ᪳𓆪* 〕═══❒
 ║╭───────────────◆  
 ║│ *❍ ᴠɪᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ*
 ║╰───────────────◆
@@ -41,7 +41,7 @@ cmd({
 ║ ⿻ *ᴀᴜᴛʜᴏʀ:*  ${yts.author.name}
 ║ ⿻ *ʟɪɴᴋ:*  ${yts.url}
 ╚══════════════════❒
-> *𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐬𝐡𝐚𝐬𝐡𝐢𝐤𝐚 𝐝𝐢𝐥𝐬𝐡𝐚𝐧*`;
+> *Powered by yourname*`;
 
         // Send video details
         await conn.sendMessage(from, { image: { url: data.result.thumbnail || '' }, caption: ytmsg }, { quoted: mek });
@@ -54,7 +54,7 @@ cmd({
             document: { url: data.result.download_url }, 
             mimetype: "video/mp4", 
             fileName: `${data.result.title}.mp4`, 
-            caption: `*${yts.title}*\n> *© 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐬𝐡𝐚𝐬𝐡𝐢𝐤𝐚 𝐝𝐢𝐥𝐬𝐡𝐚𝐧 🎐*`
+            caption: `*${yts.title}*\n> *© Powered by your name 🎐*`
         }, { quoted: mek });
 
     } catch (e) {
@@ -81,7 +81,7 @@ const yt = await ytsearch(q);
     if (yt.results.length < 1) return reply("No results found!");
     
     let yts = yt.results[0];  
-    let apiUrl = `https://apiskeith.vercel.app/download/mp3?url=${encodeURIComponent(yts.url)}`;
+    let apiUrl = `https://apis.davidcyriltech.my.id/youtube/mp3?url=${encodeURIComponent(yts.url)}`;
     
     let response = await fetch(apiUrl);
     let data = await response.json();
@@ -90,7 +90,7 @@ const yt = await ytsearch(q);
         return reply("Failed to fetch the audio. Please try again later.");
     }
     
-    let ytmsg = `╔═══〔 *𓆩𝐀𝐆𝐍𝐈𓆪* 〕═══❒
+    let ytmsg = `╔═══〔 *𓆩Your Botname𓆪* 〕═══❒
 ║╭───────────────◆  
 ║│ **❍ auᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ**
 ║╰───────────────◆
@@ -102,7 +102,7 @@ const yt = await ytsearch(q);
 ║ ⿻ *ᴀᴜᴛʜᴏʀ:*  ${yts.author.name}
 ║ ⿻ *ʟɪɴᴋ:*  ${yts.url}
 ╚══════════════════❒
-𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐬𝐡𝐚𝐬𝐡𝐢𝐤𝐚 𝐝𝐢𝐥𝐬𝐡𝐚𝐧 🍉*`;
+Powered by your name 🍉*`;
 
 
 
@@ -117,7 +117,7 @@ const yt = await ytsearch(q);
         document: { url: data.result.downloadUrl }, 
         mimetype: "audio/mpeg", 
         fileName: `${data.result.title}.mp3`, 
-        caption: `> *© 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐬𝐡𝐚𝐬𝐡𝐢𝐤𝐚 𝐝𝐢𝐥𝐬𝐡𝐚𝐧 🎐*`
+        caption: `> *© Powered by your name 🎐*`
     }, { quoted: mek });
 
 } catch (e) {
