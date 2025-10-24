@@ -9,7 +9,7 @@ cmd({
     alias: ["video", "ytv"], 
     react: "🎥", 
     desc: "Download Youtube song", 
-    category: "main", 
+    category: "download", 
     use: '.song < Yt url or Name >', 
     filename: __filename 
 }, async (conn, mek, m, { from, prefix, quoted, q, reply }) => { 
@@ -70,7 +70,7 @@ cmd({
      alias: ["yta", "play"], 
      react: "🎶", 
      desc: "Download Youtube song",
-     category: "main", 
+     category: "download", 
      use: '.song < Yt url or Name >', 
      filename: __filename }, 
      async (conn, mek, m, { from, prefix, quoted, q, reply }) => 
