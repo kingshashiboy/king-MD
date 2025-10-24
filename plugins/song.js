@@ -1,47 +1,60 @@
-const axios = require("axios");
-const { cmd } = require('../command');
+const config = require('../config');
+const {
+  cmd,
+  commands
+} = require('../command');
+const fetch = require('node-fetch');
 
-module.exports = {
-  name: "song",
-  alias: ["yta", "music", "mp3"],
-  desc: "Download YouTube song as MP3",
+cmd({
+  pattern: "ytmp3",
   category: "download",
-  usage: "song <YouTube link or title>",
-  react: "🎧",
-  async exec(malvin, m, { text, prefix, command }) {
+  react: "🎥",
+  desc: "Download YouTube audios as MP3",
+  filename: __filename
+},
+async(conn, mek, m, {from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
     try {
-      if (!text)
-        return m.reply(
-          `🎶 *Usage:* ${prefix}${command} <YouTube Link>\n\n📌 Example:\n${prefix}${command} https://youtube.com/watch?v=60ItHLz5WEA`
-        );
+        if (!q) return await reply('Please provide a YouTube audio URL.');
 
-      m.reply("⏳ *Downloading your song... Please wait!*");
+        const url = encodeURIComponent(q);
+        const response = await fetch(`https://apiskeith.vercel.app/download/audio?url=${url}`);
+        const data = await response.json();
 
-      const apiUrl = `https://apis.davidcyriltech.my.id/song?url=${encodeURIComponent(
-        text
-      )}`;
+        if (!data.status) return await reply('Failed to fetch audio details. Please check the URL and try again.');
 
-      const res = await axios.get(apiUrl);
-      const data = res.data;
+        const audio = data.data;
+        const message = `
+🎶 𝐘𝐓 𝐒𝐎𝐍𝐆 𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃 📥
 
-      if (!data.status || !data.result)
-        return m.reply("❌ *Failed to download song. Try another link!*");
+╭━━━━━━━━━●●►
+┢❑ 𝐓𝐢𝐭𝐥𝐞: ${audio.title}
+┢❑ 𝐅𝐨𝐫𝐦𝐚𝐭: ${audio.format}
+┢❑ 𝐓𝐢𝐦𝐞: ${audio.timestump || 'N/A'}
+┢❑ 𝐔𝐩𝐥𝐨𝐚𝐝𝐞𝐝: ${audio.ago || 'N/A'}
+┢❑ 𝐕𝐢𝐞𝐰𝐬: ${audio.views || 'N/A'}
+┢❑ 𝐋𝐢𝐤𝐞𝐬: ${audio.likes || 'N/A'}
+╰━━━━━━━━●●►
+        `;
 
-      const audioUrl = data.result;
+       
+        await conn.sendMessage(from, {
+            image: { url: audio.thumbnail },
+            caption: message
+        });
 
-      await malvin.sendMessage(
-        m.from,
-        {
-          audio: { url: audioUrl },
-          mimetype: "audio/mpeg",
-          fileName: "BlackWolf-Song.mp3",
-          caption: `🎵 *Downloaded via Black Wolf Bot 🐺*\n\n📻 Source: YouTube\n🔗 ${text}`,
-        },
-        { quoted: m }
-      );
-    } catch (err) {
-      console.error(err);
-      m.reply("⚠️ *Error:* Unable to fetch song. Try again later.");
+        await conn.sendMessage(from, {
+            document: { url: audio.download },
+            mimetype: 'audio/mp3',
+            fileName: `${audio.title}.mp3`,
+            caption: `shashika dilshan`
+        });
+
+        await conn.sendMessage(from, {
+            react: { text: '✅', key: mek.key }
+        });
+    } catch (e) {
+        console.error(e);
+        await reply(`📕 An error occurred: ${e.message}`);
     }
-  },
-};
+});
+                     
