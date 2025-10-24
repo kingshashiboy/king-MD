@@ -23,19 +23,21 @@ async (conn, mek, m, {
 
         // Run search
         let search = await yts(q)
-        let results = search.all.slice(0, 8) // Show top 8 results
+        let results = search.all.slice(0, 2) // Show top 8 results
 
         if (results.length < 1) return reply('*No results found!*')
 
         // Send results one by one with thumbnail
         for (let video of results) {
             let caption = `
+╭━━━━━━━━━●●►           
 🎬 *${video.title}*
 👤 Channel: ${video.author.name}
 ⏱️ Duration: ${video.timestamp}
 👁️ Views: ${video.views.toLocaleString()}
 📅 Uploaded: ${video.ago}
 🔗 [Watch on YouTube](${video.url})
+━━━━━━━━●●►AGNI
 `
 
             try {
