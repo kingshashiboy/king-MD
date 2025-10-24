@@ -24,7 +24,7 @@ cmd({
       react: { text: "⏳", key: m.key }
     });
 
-    const response = await axios.get(`https://apis.davidcyriltech.my.id/instagram?url=${encodeURIComponent(q)}`);
+    const response = await axios.get(`https://apiskeith.vercel.app/download/instagramdl?url=${encodeURIComponent(q)}`);
     const data = response.data;
 
     if (!data || data.status !== true || !data.BK9 || data.BK9.length === 0) {
@@ -60,7 +60,7 @@ cmd({ 'pattern': "tiktok2", 'alias': ['tt2'], 'react': '🎥', 'desc': "download
 
 store.react('⬇️');
 
-let response = await fetch(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(q)}`);
+let response = await fetch(`https://apiskeith.vercel.app/download/tiktokdl3?url=${encodeURIComponent(q)}`);
 let jsonData = await response.json();
 
 if (!jsonData.status) {
@@ -232,7 +232,7 @@ await conn.sendMessage(from, {
   react: { text: '⏳', key: m.key }
 });
 
-const response = await axios.get(`https://apis.davidcyriltech.my.id/twitter?url=${q}`);
+const response = await axios.get(`https://apiskeith.vercel.app/download/twitter?url={q}`);
 const data = response.data;
 
 if (!data || !data.status || !data.BK9 || !data.BK9.BK9) {
