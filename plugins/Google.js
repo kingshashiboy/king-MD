@@ -1,4 +1,6 @@
 // Google Search Plugin
+const { cmd } = require("../lib/"); // cmd function import
+const axios = require("axios");
 
 cmd({
   pattern: "gsearch",
@@ -20,7 +22,6 @@ cmd({
     const data = response.data;
 
     if (!data || !data.status || !data.result || data.result.length === 0) {
-      // Error reaction + message
       await conn.sendMessage(from, { react: { text: "❌", key: m.key } });
       return reply("⚠️ No results found for this keyword. Try another keyword.");
     }
@@ -35,16 +36,12 @@ cmd({
     });
     caption += `> *𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐬𝐡𝐚𝐬𝐡𝐢𝐤𝐚 𝐝𝐢𝐥𝐬𝐡𝐚𝐧*`;
 
-    // Send results
     await conn.sendMessage(from, { text: caption }, { quoted: m });
-
-    // Success reaction + message
     await conn.sendMessage(from, { react: { text: "✅", key: m.key } });
     await conn.sendMessage(from, { text: "✅ Google search results fetched successfully!" }, { quoted: m });
 
   } catch (error) {
     console.error(error);
-    // Error reaction + message
     await conn.sendMessage(from, { react: { text: "❌", key: m.key } });
     reply("❌ An error occurred while searching Google. Please try again.");
   }
