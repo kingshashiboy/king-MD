@@ -1,5 +1,5 @@
 // Google Search Plugin
-const { cmd } = require("../lib/"); // cmd function import
+const { cmd } = require("../command"); // cmd function import
 const axios = require("axios");
 
 cmd({
