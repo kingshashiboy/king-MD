@@ -30,7 +30,7 @@ cmd({
       react: { text: '⏳', key: m.key }
     });
 
-    const response = await axios.get(`https://apis.davidcyriltech.my.id/twitterV2?url=${q}`);
+    const response = await axios.get(`https://apiskeith.vercel.app/download/twitter?url=${q}`);
     const data = response.data;
 
     if (!data || !data.status || !data.result) {
