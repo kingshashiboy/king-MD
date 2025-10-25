@@ -17,15 +17,14 @@ module.exports = {
   DESCRIPTION: process.env.DESCRIPTION || "𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐬𝐡𝐚𝐬𝐡𝐢𝐤𝐚 𝐝𝐢𝐥𝐬𝐡𝐚𝐧",
   AUTO_READ: process.env.AUTO_READ || "true",
   AUTO_REACT: process.env.AUTO_REACT || "true",
-  MODE : process.env.MODE || "public", 
-  AUTO_STATUS_LIKE: process.env.AUTO_STATUS_LIKE || "true", 
+  MODE : process.env.MODE || "public",  
   AUTO_RECORDING: (process.env.AUTO_RECORDING || "true",
   AUTO_REPLY: process.env.AUTO_REPLY || "true",
   AUTO_STICKER: process.env.AUTO_STICKER || "true",
   AUTO_VOICE: process.env.AUTO_VOICE || "true",
-  AUTO_TYPING: process.env.AUTO_TYPING: 'true',        // 💬 Typing animation
+  AUTO_TYPING: process.env.AUTO_TYPING: 'true',     // 💬 Typing animation
   ALWAYS_ONLINE: process.env.ALWAYS_ONLINE: 'true',      // 🌐 Keep bot always online
   AUTO_STATUS_VIEW: process.env.AUTO_STATUS_VIEW: 'true',   // 👁️‍🗨️ View WhatsApp statuses
-  AUTO_STATUS_REACT: process.env.AUTO_STATUS_REACT: 'true',  // 💞 React to statuses
+  AUTO_STATUS_REACT: process.env.AUTO_STATUS_REACT: 'true'  // 💞 React to statuses
   }
 };
