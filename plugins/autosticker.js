@@ -13,7 +13,7 @@ async (conn, mek, m, { from, body }) => {
     for (const text in data) {
         if (body.toLowerCase() === text.toLowerCase()) {
             if (config.AUTO_STICKER === 'true') {
-                const stickerPath = path.join(__dirname, '../shashikamedia/autosticker', data[text]);
+                const stickerPath = path.join(__dirname, '../shashikameda/autosticker', data[text]);
 
                 if (fs.existsSync(stickerPath)) {
                     const stickerBuffer = fs.readFileSync(stickerPath);
