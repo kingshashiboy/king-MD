@@ -16,7 +16,7 @@ async (conn, mek, m, { from, args, q, reply, pushname }) => {
 
         reply("⏳ *Fetching Spotify track... Please wait!*");
 
-        const { data } = await axios.get(`https://api.siputzx.my.id/api/d/spotify`, {
+        const { data } = await axios.get(`https://apiskeith.vercel.app/download/spotify?q=`, {
             params: { url: q }
         });
 
