@@ -18,7 +18,7 @@ cmd({
         const pinterestUrl = args[0];
 
         // Call your Pinterest download API
-        const response = await axios.get(`https://api.giftedtech.web.id/api/download/pinterestdl?apikey=gifted&url=${encodeURIComponent(pinterestUrl)}`);
+        const response = await axios.get(`https://apiskeith.vercel.app/download/pindl2?url=${encodeURIComponent(pinterestUrl)}`);
 
         if (!response.data.success) {
             return reply('❎ Failed to fetch data from Pinterest.');
