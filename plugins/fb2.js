@@ -1,105 +1,75 @@
-const axios = require("axios");
-const { cmd } = require("../command");
+const { cmd } = require('../command')
+const axios = require('axios')
+const fs = require('fs-extra')
 
 cmd({
-    pattern: "fb3",
-    alias: ["facebook3"],
-    desc: "Download Facebook videos",
-    category: "download",
-    filename: __filename
-}, async (conn, m, store, { from, quoted, args, q, reply }) => {
-    try {
-        if (!q || !q.startsWith("https://")) {
-            return conn.sendMessage(from, { text: "*❌ Need a valid URL*" }, { quoted: m });
-        }
+  pattern: "fb3",
+  desc: "Facebook video downloader",
+  react: "🎬",
+  category: "download"
+}, async (conn, m, text) => {
+  try {
+    if (!text) return await m.reply("🔗 *Please send a valid Facebook video link!*")
 
-        await conn.sendMessage(from, { react: { text: '⏳', key: m.key } });
+    const buttons = [
+      { buttonId: `fb_sd ${text}`, buttonText: { displayText: '📱 SD VIDEO' }, type: 1 },
+      { buttonId: `fb_hd ${text}`, buttonText: { displayText: '💎 HD VIDEO' }, type: 1 },
+      { buttonId: `fb_audio ${text}`, buttonText: { displayText: '🎧 AUDIO' }, type: 1 },
+      { buttonId: `fb_audiodoc ${text}`, buttonText: { displayText: '🎧 AUDIO DOC' }, type: 1 },
+      { buttonId: `fb_vn ${text}`, buttonText: { displayText: '🎤 VOICE NOTE' }, type: 1 },
+    ]
 
-        // ✅ API call to your external FB downloader API
-        const apiRes = await axios.get(`https://apiskeith.vercel.app/download/fbdown?url=${encodeURIComponent(q)}`);
-        const fbData = apiRes.data;
+    const msg = {
+      caption: `🎬 * 𝐀𝐆𝐍𝐈 FB DOWNLOADER * ❤️
 
-        if (!fbData.success) return reply("❌ Unable to fetch video from the URL.");
+💫 *URL:* ${text}
 
-        const caption = `╭━━━〔 *FACEBOOK DOWNLOAD* 〕━━━⊷\n`
-            + `┃▸ *Duration*: ${fbData.result.duration || 'N/A'}\n`
-            + `╰━━━⪼\n\n`
-            + `🌐 *Download Options:*\n`
-            + `1️⃣ SD Quality\n`
-            + `2️⃣ HD Quality\n`
-            + `🎵 Audio\n`
-            + `4️⃣ Document\n`
-            + `5️⃣ Voice\n\n`
-            + `↪️ Reply with the number to download your choice.`;
-
-        const sentMsg = await conn.sendMessage(from, {
-            image: { url: fbData.result.thumbnail },
-            caption
-        }, { quoted: m });
-
-        const messageID = sentMsg.key.id;
-
-        // Listen for reply to this message
-        conn.ev.on("messages.upsert", async (msgData) => {
-            const receivedMsg = msgData.messages[0];
-            if (!receivedMsg.message) return;
-
-            const receivedText = receivedMsg.message.conversation || receivedMsg.message.extendedTextMessage?.text;
-            const senderID = receivedMsg.key.remoteJid;
-            const isReplyToBot = receivedMsg.message.extendedTextMessage?.contextInfo?.stanzaId === messageID;
-
-            if (!isReplyToBot) return;
-
-            await conn.sendMessage(senderID, { react: { text: '⬇️', key: receivedMsg.key } });
-
-            const videoLinks = fbData.result.links; // { SD: "", HD: "" }
-
-            switch (receivedText) {
-                case "1": // SD
-                    await conn.sendMessage(senderID, {
-                        video: { url: videoLinks.SD },
-                        caption: "📥 Downloaded in SD Quality"
-                    }, { quoted: receivedMsg });
-                    break;
-
-                case "2": // HD
-                    await conn.sendMessage(senderID, {
-                        video: { url: videoLinks.HD },
-                        caption: "📥 Downloaded in HD Quality"
-                    }, { quoted: receivedMsg });
-                    break;
-
-                case "3": // Audio
-                    await conn.sendMessage(senderID, {
-                        audio: { url: videoLinks.SD },
-                        mimetype: "audio/mpeg"
-                    }, { quoted: receivedMsg });
-                    break;
-
-                case "4": // Document
-                    await conn.sendMessage(senderID, {
-                        document: { url: videoLinks.SD },
-                        mimetype: "audio/mpeg",
-                        fileName: "Facebook_Audio.mp3",
-                        caption: "📥 Audio Downloaded as Document"
-                    }, { quoted: receivedMsg });
-                    break;
-
-                case "5": // Voice
-                    await conn.sendMessage(senderID, {
-                        audio: { url: videoLinks.SD },
-                        mimetype: "audio/mp4",
-                        ptt: true
-                    }, { quoted: receivedMsg });
-                    break;
-
-                default:
-                    reply("❌ Invalid option! Reply with 1, 2, 3, 4, or 5.");
-            }
-        });
-
-    } catch (error) {
-        console.error("Facebook Download Error:", error);
-        reply("❌ Error fetching the video. Please try again.");
+> Choose your download format below 👇`,
+      footer: "🔥 𝐀𝐆𝐍𝐈 | 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐬𝐡𝐚𝐬𝐡𝐢𝐤𝐚 𝐝𝐢𝐥𝐬𝐡𝐚𝐧 🔥",
+      buttons: buttons,
+      headerType: 1
     }
-});
+
+    await conn.sendMessage(m.chat, msg, { quoted: m })
+
+  } catch (e) {
+    console.log(e)
+    await m.reply("❌ Error creating Facebook buttons.")
+  }
+})
+
+
+// BUTTON HANDLER SECTION
+cmd({
+  on: "button"
+}, async (conn, m, { buttonId }) => {
+  try {
+    const [action, url] = buttonId.split(" ")
+
+    await m.reply("⏳ *Downloading... Please wait!*")
+
+    let apiURL
+
+    // 🔗 Change these API links to your own FB APIs
+    if (action === "fb_sd") apiURL = `https://apiskeith.vercel.app/download/fbdown?url=${url}`
+    else if (action === "fb_hd") apiURL = `https://apiskeith.vercel.app/download/fbdown?url=${url}`
+    else if (action === "fb_audio") apiURL = `https://apis.davidcyriltech.my.id/facebook3?url=${url}`
+    else if (action === "fb_audiodoc") apiURL = `https://apiskeith.vercel.app/download/fbdown?url=${url}`
+    else if (action === "fb_vn") apiURL = `https://apiskeith.vercel.app/download/fbdown?url=${url}`
+
+    const res = await axios.get(apiURL)
+    const dlUrl = res.data.url || res.data.result || res.data.download
+
+    if (!dlUrl) return await m.reply("⚠️ Download link not found!")
+
+    if (action === "fb_audio" || action === "fb_audiodoc" || action === "fb_vn") {
+      await conn.sendMessage(m.chat, { audio: { url: dlUrl }, mimetype: 'audio/mpeg' }, { quoted: m })
+    } else {
+      await conn.sendMessage(m.chat, { video: { url: dlUrl }, caption: "✅ Download complete!" }, { quoted: m })
+    }
+
+  } catch (e) {
+    console.log(e)
+    await m.reply("❌ Error downloading file. API might be offline.")
+  }
+})
